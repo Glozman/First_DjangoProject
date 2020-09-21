@@ -1,0 +1,40 @@
+    <h1>Заметка</h1>
+
+    <div class="block-level alert-warning">
+        <h3>
+            {{form.title}}
+
+    <input type="text" value= {{ form }} class="form-control"><br>
+<p>{{ form.title }}</p>
+    <textarea class="form-control" value= {{ form }}></textarea>
+
+<form method="post">
+    {% csrf_token %}
+    {{form.title}}<br>
+    {{form.task}}<br>
+    <button type="submit" value="form" class="btn btn-success">Edit</button>
+</form>
+        </h3>
+    </div>
+
+
+
+    {% extends 'main/base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+<form method="get">
+    <!--{% csrf_token %}-->
+    {% for task in form %}
+       <input type="text"  value="{{ task.title }}"  class="form-control"><br>
+       <textarea class="form-control">{{ task.task }}</textarea><br>
+    {% endfor %}
+    <button type="submit" class="btn btn-success">Edit</button>
+</form>
+{% endblock %}
+
+    <a type="submit" class="btn btn-info" href="{% url 'update' %}?{{forloop.revcounter0}}=update">Update</a>
+    <button type="submit" class="btn btn-danger" name= {{ forloop.revcounter0 }} value="del">Delete</button>

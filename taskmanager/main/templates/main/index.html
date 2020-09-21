@@ -1,0 +1,50 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+<h1>Главная страница</h1>
+
+    {% if messages %}
+
+    <div style="width:200px;" class="alert alert-danger">
+        {% for message in messages %}
+            <div class="p-2 text-dark">{{message}}
+                <a class="p-2 text-dark" href="{% url 'home' %}" class="close">x</a>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if tasks %}
+        {% for task in tasks %}
+            <div class="alert alert-primary">
+                <h3>
+                    {{task.title}}
+
+                <form method="get" action="{% url 'update' task.id %}">
+                    {% csrf_token %}
+                    <div align="right">
+                        <button type="submit" class="btn btn-dark btn-sm">Update</button>
+                    </div>
+                </form>
+
+                <form method="post" action="{% url 'delete' task.id %}">
+                    {% csrf_token %}
+                    <div align="right">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                    </div>
+                </form>
+                </h3>
+                <p>
+                    {{task.task}}
+                </p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Записей нет</p>
+    {% endif %}
+{% endblock %}
+
